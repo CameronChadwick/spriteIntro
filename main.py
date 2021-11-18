@@ -15,28 +15,43 @@ pygame.init()
 screen = pygame.display.set_mode(SIZE)
 pygame.display.set_caption("Pygame Picture")
 
-# Player
+# sounds
+fire_sound = pygame.mixer.Sound("Assets/shoot.wav")
+
+# sprite groups
 player_group = pygame.sprite.Group()          # create sprite group for player
-player = Player("Assets/sprite_ship_3.png")   # create player object
+all_sprites = pygame.sprite.Group()           # group for all sprites
+missile_group = pygame.sprite.Group()
+
+# Player
+player = Player("Assets/player.png")   # create player object
 player_group.add(player)                      # add player to group
+all_sprites.add(player)
 
 clock = pygame.time.Clock()
 
 running = True
 
 while running:
-
     for event in pygame.event.get():
-
-        # check for user input
         if event.type == pygame.QUIT:
             running = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                missile = Missile(player.rect.centerx - MISSILE_WIDTH//2,
+                                  player.rect.top)
+                missile_group.add(missile)
+                all_sprites.add(missile)
+                fire_sound.play()
 
     # game logic
 
     screen.fill(WHITE)
 
+    missile_group.draw(screen)
+    missile_group.update()
     player_group.draw(screen)
+    all_sprites.add()
     player_group.update()
 
     pygame.display.flip()
