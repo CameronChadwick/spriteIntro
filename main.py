@@ -19,7 +19,8 @@ pygame.display.set_caption("Pygame Picture")
 fire_sound = pygame.mixer.Sound("Assets/shoot.wav")
 
 # sprite groups
-player_group = pygame.sprite.Group()          # create sprite group for player
+player_group = pygame.sprite.Group()   # create sprite group for player
+enemy_group = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()           # group for all sprites
 missile_group = pygame.sprite.Group()
 
@@ -27,6 +28,16 @@ missile_group = pygame.sprite.Group()
 player = Player("Assets/player.png")   # create player object
 player_group.add(player)                      # add player to group
 all_sprites.add(player)
+
+# Enemy
+for row in range(5):
+    for col in range(11):
+
+        enemy = Enemy("Assets/red.png", col*50, row*1)
+        all_sprites.add(enemy)
+        enemy_group.add(enemy)
+
+
 
 clock = pygame.time.Clock()
 
@@ -51,8 +62,8 @@ while running:
     missile_group.draw(screen)
     missile_group.update()
     player_group.draw(screen)
-    all_sprites.add()
     player_group.update()
+    enemy_group.draw(screen)
 
     pygame.display.flip()
 
