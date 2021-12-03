@@ -9,7 +9,7 @@ BLACK = (0, 0, 0)
 
 # game constants
 DISPLAY_WIDTH = 600
-DISPLAY_HEIGHT = 800
+DISPLAY_HEIGHT = 700
 
 # missile variables
 MISSILE_WIDTH = 5

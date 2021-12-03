@@ -31,12 +31,25 @@ class Player(pygame.sprite.Sprite):
 
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, image_path, x, y):
+
+    x_velo = 1
+
+    def __init__(self, image_path, x, y, row):
         pygame.sprite.Sprite.__init__(self)
 
         self.image = pygame.image.load(image_path)
         self.rect = self.image.get_rect()
-        self.rect.center = x + DISPLAY_WIDTH // 12, y * .85 * self.rect.height
+        self.rect.center = x + DISPLAY_WIDTH // 12, y * .85 * self.rect.height + 40
+        self.row = row
+
+    def update(self):
+        self.rect.x += Enemy.x_velo
+
+        if self.rect.right >= DISPLAY_WIDTH:
+            Enemy.x_velo *= -1
+
+        if self.rect.left <= 0:
+            Enemy.x_velo *= -1
 
 
 class Missile(pygame.sprite.Sprite):

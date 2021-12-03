@@ -33,10 +33,9 @@ all_sprites.add(player)
 for row in range(5):
     for col in range(11):
 
-        enemy = Enemy("Assets/red.png", col*50, row*1)
+        enemy = Enemy("Assets/red.png", col*50, row*1.5, row)
         all_sprites.add(enemy)
         enemy_group.add(enemy)
-
 
 
 clock = pygame.time.Clock()
@@ -64,6 +63,7 @@ while running:
     player_group.draw(screen)
     player_group.update()
     enemy_group.draw(screen)
+    enemy_group.update()
 
     pygame.display.flip()
 
