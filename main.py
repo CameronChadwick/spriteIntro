@@ -59,11 +59,9 @@ while running:
     screen.fill(WHITE)
 
     missile_group.draw(screen)
-    missile_group.update()
     player_group.draw(screen)
-    player_group.update()
     enemy_group.draw(screen)
-    enemy_group.update()
+    all_sprites.update()
 
     pygame.display.flip()
 

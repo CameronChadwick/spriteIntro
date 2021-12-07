@@ -17,9 +17,9 @@ class Player(pygame.sprite.Sprite):
         self.rect.x += self.change_x
 
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_RIGHT]:
+        if keys[pygame.K_d]:
             self.change_x = 4
-        elif keys[pygame.K_LEFT]:
+        elif keys[pygame.K_a]:
             self.change_x = -4
         else:
             self.change_x = 0
@@ -55,7 +55,7 @@ class Enemy(pygame.sprite.Sprite):
 class Missile(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
-        self.y_velo = 2
+        self.y_velo = 4
 
         self.image = pygame.Surface((MISSILE_WIDTH, MISSILE_HEIGHT))
         self.rect = self.image.get_rect()
