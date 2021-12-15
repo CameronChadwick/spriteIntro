@@ -31,25 +31,16 @@ class Player(pygame.sprite.Sprite):
 
 
 class Enemy(pygame.sprite.Sprite):
-
-    x_velo = 1
-
-    def __init__(self, image_path, x, y, row):
+    def __init__(self, image_path, x, y):
         pygame.sprite.Sprite.__init__(self)
 
         self.image = pygame.image.load(image_path)
         self.rect = self.image.get_rect()
-        self.rect.center = x + DISPLAY_WIDTH // 12, y * .85 * self.rect.height + 40
-        self.row = row
+        self.rect.x = x
+        self.rect.y = y
 
-    def update(self):
-        self.rect.x += Enemy.x_velo
-
-        if self.rect.right >= DISPLAY_WIDTH:
-            Enemy.x_velo *= -1
-
-        if self.rect.left <= 0:
-            Enemy.x_velo *= -1
+    def update(self, x_velo):
+        self.rect.x += x_velo
 
 
 class Missile(pygame.sprite.Sprite):
@@ -59,9 +50,44 @@ class Missile(pygame.sprite.Sprite):
 
         self.image = pygame.Surface((MISSILE_WIDTH, MISSILE_HEIGHT))
         self.rect = self.image.get_rect()
+        self.image.fill(WHITE)
         self.rect.x = x
         self.rect.y = y
         pygame.draw.rect(self.image, WHITE, [self.rect.x, self.rect.y, MISSILE_WIDTH, MISSILE_HEIGHT])
 
     def update(self):
         self.rect.y -= self.y_velo
+
+
+class Block(pygame.sprite.Sprite):
+    def __init__(self, display, x, y):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((BLOCK_WIDTH, BLOCK_HEIGHT))
+        self.image.fill(BLOCK_COLOR)
+        self.rect = self.image.get_rect()
+        self.rect.center = x, y
+        pygame.draw.rect(display, BLOCK_COLOR, [self.rect.x, self.rect.y, self.rect.width, self.rect.height])
+
+
+class Explosion(pygame.sprite.Sprite):
+    def __init__(self, center):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = EXPLOSION_LIST[0]
+        self.rect = self.image.get_rect()
+        self.rect.center = center
+        self.frame = 0
+        self.frame_rate = 50
+        self.kill_center = center
+        self.prev_update = pygame.time.get_ticks()
+
+    def update(self):
+        now = pygame.time.get_ticks()
+        if now - self.prev_update > self.frame_rate:
+            self.prev_update = now
+            self.frame += 1
+        if self.frame == len(EXPLOSION_LIST):
+            self.kill()
+        else:
+            self.image = EXPLOSION_LIST[self.frame]
+            self.rect = self.image.get_rect()
+            self.rect.center = self.kill_center
